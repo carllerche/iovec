@@ -113,6 +113,20 @@ impl<'a> From<&'a mut [u8]> for &'a mut IoVec {
     }
 }
 
+impl<'a> Default for &'a IoVec {
+    fn default() -> Self {
+        let b: &[u8] = Default::default();
+        b.into()
+    }
+}
+
+impl<'a> Default for &'a mut IoVec {
+    fn default() -> Self {
+        let b: &mut [u8] = Default::default();
+        b.into()
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::IoVec;
