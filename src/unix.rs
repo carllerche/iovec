@@ -12,7 +12,7 @@
 //! let a = b"hello".to_vec();
 //! let b = b"world".to_vec();
 //!
-//! let bufs: &[&IoVec] = &[a[..].as_ref(), b[..].as_ref()];
+//! let bufs: &[&IoVec] = &[(&a[..]).into(), (&b[..]).into()];
 //! let os_bufs = unix::as_os_slice(&bufs[..]);
 //!
 //! // Use the `os_bufs` slice with `writev`.
@@ -36,7 +36,7 @@ use std::mem;
 /// let a = b"hello".to_vec();
 /// let b = b"world".to_vec();
 ///
-/// let bufs: &[&IoVec] = &[a[..].as_ref(), b[..].as_ref()];
+/// let bufs: &[&IoVec] = &[a[..].into(), b[..].into()];
 /// let os_bufs = unix::as_os_slice(bufs);
 ///
 /// // Use the `os_bufs` slice with `writev`.
@@ -58,7 +58,7 @@ pub fn as_os_slice<'a>(iov: &'a [&IoVec]) -> &'a [libc::iovec] {
 /// let mut a = [0; 10];
 /// let mut b = [0; 10];
 ///
-/// let bufs: &mut [&mut IoVec] = &mut [a[..].as_mut(), b[..].as_mut()];
+/// let bufs: &mut [&mut IoVec] = &mut [(&mut a[..]).into(), (&mut b[..]).into()];
 /// let os_bufs = unix::as_os_slice_mut(bufs);
 ///
 /// // Use the `os_bufs` slice with `readv`.
