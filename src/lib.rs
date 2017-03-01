@@ -40,7 +40,7 @@ pub const MAX_LENGTH: usize = sys::MAX_LENGTH;
 /// let mut data = vec![];
 /// data.extend_from_slice(b"hello");
 ///
-/// let iovec: &IoVec = data.as_slice().as_ref();
+/// let iovec: &IoVec = data.as_slice().into();
 ///
 /// assert_eq!(&iovec[..], &b"hello"[..]);
 /// ```
@@ -83,18 +83,6 @@ impl ops::DerefMut for IoVec {
     }
 }
 
-impl AsRef<IoVec> for [u8] {
-    fn as_ref(&self) -> &IoVec {
-        self.into()
-    }
-}
-
-impl AsMut<IoVec> for [u8] {
-    fn as_mut(&mut self) -> &mut IoVec {
-        self.into()
-    }
-}
-
 impl<'a> From<&'a [u8]> for &'a IoVec {
     fn from(bytes: &'a [u8]) -> &'a IoVec {
         unsafe {
@@ -133,14 +121,14 @@ mod test {
 
     #[test]
     fn convert_ref() {
-        let buf: &IoVec = b"hello world"[..].as_ref();
+        let buf: &IoVec = (&b"hello world"[..]).into();
         assert_eq!(buf[..], b"hello world"[..]);
     }
 
     #[test]
     fn convert_mut() {
         let mut buf: Vec<u8> = b"hello world".to_vec();
-        let buf: &mut IoVec = buf[..].as_mut();
+        let buf: &mut IoVec = (&mut buf[..]).into();
         assert_eq!(buf[..], b"hello world"[..]);
     }
 }
