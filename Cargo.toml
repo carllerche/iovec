@@ -9,6 +9,7 @@ repository = "https://github.com/carllerche/iovec"
 homepage = "https://github.com/carllerche/iovec"
 documentation = "https://docs.rs/iovec"
 description = """
+Portable buffer type for scatter/gather I/O operations
 """
 categories = ["network-programming", "api-bindings"]
 
