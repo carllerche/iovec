@@ -25,12 +25,14 @@ pub const MAX_LENGTH: usize = sys::MAX_LENGTH;
 /// A specialized byte slice type for performing vectored I/O operations.
 ///
 /// On all systems, the types needed to perform vectored I/O systems have the
-/// same size as Rust's [slice]. However, the layout is not necessarily the
+/// same size as Rust's [`slice`]. However, the layout is not necessarily the
 /// same. `IoVec` provides a portable compatibility layer.
 ///
-/// The `IoVec` behaves like like a Rust [slice], providing the same functions.
+/// The `IoVec` behaves like a Rust [`slice`], providing the same functions.
 /// It also provides conversion functions to and from the OS specific vectored
 /// types.
+///
+/// [`slice`]: https://doc.rust-lang.org/std/primitive.slice.html
 ///
 /// # Examples
 ///
