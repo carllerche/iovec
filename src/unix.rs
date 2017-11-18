@@ -12,13 +12,13 @@
 //! let a = b"hello".to_vec();
 //! let b = b"world".to_vec();
 //!
-//! let bufs: &[&IoVec] = &[(&a[..]).into(), (&b[..]).into()];
+//! let bufs: &[IoVec] = &[(&a[..]).into(), (&b[..]).into()];
 //! let os_bufs = unix::as_os_slice(&bufs[..]);
 //!
 //! // Use the `os_bufs` slice with `writev`.
 //! ```
 
-use IoVec;
+use {IoVec, IoVecMut};
 use libc;
 
 use std::mem;
@@ -36,12 +36,12 @@ use std::mem;
 /// let a = b"hello".to_vec();
 /// let b = b"world".to_vec();
 ///
-/// let bufs: &[&IoVec] = &[a[..].into(), b[..].into()];
+/// let bufs: &[IoVec] = &[a[..].into(), b[..].into()];
 /// let os_bufs = unix::as_os_slice(bufs);
 ///
 /// // Use the `os_bufs` slice with `writev`.
 /// ```
-pub fn as_os_slice<'a>(iov: &'a [&IoVec]) -> &'a [libc::iovec] {
+pub fn as_os_slice<'a>(iov: &'a [IoVec]) -> &'a [libc::iovec] {
     unsafe { mem::transmute(iov) }
 }
 
@@ -52,17 +52,17 @@ pub fn as_os_slice<'a>(iov: &'a [&IoVec]) -> &'a [libc::iovec] {
 /// # Examples
 ///
 /// ```
-/// use iovec::IoVec;
+/// use iovec::IoVecMut;
 /// use iovec::unix;
 ///
 /// let mut a = [0; 10];
 /// let mut b = [0; 10];
 ///
-/// let bufs: &mut [&mut IoVec] = &mut [(&mut a[..]).into(), (&mut b[..]).into()];
+/// let bufs: &mut [IoVecMut] = &mut [(&mut a[..]).into(), (&mut b[..]).into()];
 /// let os_bufs = unix::as_os_slice_mut(bufs);
 ///
 /// // Use the `os_bufs` slice with `readv`.
 /// ```
-pub fn as_os_slice_mut<'a>(iov: &'a mut [&mut IoVec]) -> &'a mut [libc::iovec] {
+pub fn as_os_slice_mut<'a>(iov: &'a mut [IoVecMut]) -> &'a mut [libc::iovec] {
     unsafe { mem::transmute(iov) }
 }
