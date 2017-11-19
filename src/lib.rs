@@ -181,4 +181,10 @@ mod test {
         let buf: IoVecMut = (&mut buf[..]).into();
         assert_eq!(buf[..], b"hello world"[..]);
     }
+
+    #[test]
+    fn default() {
+        let buf: IoVec = IoVec::default();
+        assert_eq!(buf[..], b""[..]);
+    }
 }
