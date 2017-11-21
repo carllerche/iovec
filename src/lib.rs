@@ -76,6 +76,11 @@ impl<'a> IoVec<'a> {
         }
     }
 
+    /// Convert a slice of mutable iovecs to immutable iovecs
+    pub fn from_mut_slice<'b>(slice: &'b [IoVecMut<'a>]) -> &'b [Self] {
+        unsafe { ::std::mem::transmute(slice) }
+    }
+
     /// Immutable borrow of the iovec.
     pub fn borrow(&self) -> IoVec {
         IoVec {
