@@ -9,6 +9,24 @@ pub struct IoVec {
 pub const MAX_LENGTH: usize = usize::MAX;
 
 impl IoVec {
+    pub unsafe fn from_bytes(src: &[u8]) -> Self {
+        IoVec {
+            inner: libc::iovec {
+                iov_base: src.as_ptr() as *mut _,
+                iov_len: src.len(),
+            },
+        }
+    }
+
+    pub unsafe fn from_bytes_mut(src: &mut [u8]) -> Self {
+        IoVec {
+            inner: libc::iovec {
+                iov_base: src.as_ptr() as *mut _,
+                iov_len: src.len(),
+            },
+        }
+    }
+
     pub fn as_ref(&self) -> &[u8] {
         unsafe {
             slice::from_raw_parts(
@@ -26,30 +44,8 @@ impl IoVec {
     }
 }
 
-impl<'a> From<&'a [u8]> for IoVec {
-    fn from(src: &'a [u8]) -> Self {
-        IoVec {
-            inner: libc::iovec {
-                iov_base: src.as_ptr() as *mut _,
-                iov_len: src.len(),
-            },
-        }
-    }
-}
-
-impl<'a> From<&'a mut [u8]> for IoVec {
-    fn from(src: &'a mut [u8]) -> Self {
-        IoVec {
-            inner: libc::iovec {
-                iov_base: src.as_ptr() as *mut _,
-                iov_len: src.len(),
-            },
-        }
-    }
-}
-
 impl Default for IoVec {
     fn default() -> Self {
-        Self::from(<&[u8]>::default())
+        unsafe { Self::from_bytes(<&[u8]>::default()) }
     }
 }

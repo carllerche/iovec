@@ -69,9 +69,9 @@ pub struct IoVecMut<'a> {
 
 impl<'a> IoVec<'a> {
     /// Convert an `IoVec` from a byte slice
-    pub fn from_bytes(slice: &[u8]) -> Self {
+    pub fn from_bytes(slice: &'a [u8]) -> Self {
         IoVec {
-            sys: sys::IoVec::from(slice),
+            sys: unsafe { sys::IoVec::from_bytes(slice) },
             _p: PhantomData,
         }
     }
@@ -112,9 +112,9 @@ impl<'a> Default for IoVec<'a> {
 
 impl<'a> IoVecMut<'a> {
     /// Convert an `IoVecMut` from a mutable byte slice.
-    pub fn from_bytes(slice: &mut [u8]) -> Self {
+    pub fn from_bytes(slice: &'a mut [u8]) -> Self {
         IoVecMut {
-            sys: sys::IoVec::from(slice),
+            sys: unsafe { sys::IoVec::from_bytes_mut(slice) },
             _p: PhantomData,
         }
     }

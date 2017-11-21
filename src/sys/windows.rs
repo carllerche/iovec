@@ -1,5 +1,5 @@
 use winapi::{WSABUF, DWORD};
-use std::{mem, slice, u32};
+use std::{slice, u32};
 
 #[derive(Clone)]
 pub struct IoVec {
@@ -9,6 +9,24 @@ pub struct IoVec {
 pub const MAX_LENGTH: usize = u32::MAX as usize;
 
 impl IoVec {
+    pub unsafe fn from_bytes(src: &[u8]) -> Self {
+        IoVec {
+            inner: WSABUF {
+                buf: src.as_ptr() as *mut _,
+                len: src.len() as DWORD,
+            }
+        }
+    }
+
+    pub unsafe fn from_bytes_mut(src: &mut [u8]) -> Self {
+        IoVec {
+            inner: WSABUF {
+                buf: src.as_ptr() as *mut _,
+                len: src.len() as DWORD,
+            }
+        }
+    }
+
     pub fn as_ref(&self) -> &[u8] {
         unsafe {
             slice::from_raw_parts(
@@ -26,30 +44,8 @@ impl IoVec {
     }
 }
 
-impl<'a> From<&'a [u8]> for IoVec {
-    fn from(src: &'a [u8]) -> Self {
-        IoVec {
-            inner: WSABUF {
-                buf: src.as_ptr() as *mut _,
-                len: src.len() as DWORD,
-            }
-        }
-    }
-}
-
-impl<'a> From<&'a mut [u8]> for IoVec {
-    fn from(src: &'a mut [u8]) -> Self {
-        IoVec {
-            inner: WSABUF {
-                buf: src.as_ptr() as *mut _,
-                len: src.len() as DWORD,
-            }
-        }
-    }
-}
-
 impl Default for IoVec {
     fn default() -> Self {
-        Self::from(<&[u8]>::default())
+        unsafe { Self::from_bytes(<&[u8]>::default()) }
     }
 }
