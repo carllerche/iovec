@@ -14,10 +14,20 @@ matrix:
     - os: linux
       # Oldest supported Rust (this should track Mio)
       rust: 1.9.0
+    - os: linux
+      # Verify WebAssembly support.  As of right now the target is only
+      # available on nightly.
+      rust: nightly
+      env: [TARGET=wasm32-unknown-unknown]
 
 script:
-  - cargo build
-  - cargo test
+  - |
+      if [ -n "$TARGET" ]
+      then rustup target add "$TARGET"
+           CARGO_FLAGS="--target=$TARGET"
+      fi
+  - cargo build $CARGO_FLAGS
+  - cargo test $CARGO_FLAGS
 
 notifications:
   email:
