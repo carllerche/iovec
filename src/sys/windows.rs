@@ -1,4 +1,5 @@
-use winapi::{WSABUF, DWORD};
+use winapi::shared::minwindef::DWORD;
+use winapi::shared::ws2def::WSABUF;
 use std::{slice, u32};
 
 #[derive(Clone)]
