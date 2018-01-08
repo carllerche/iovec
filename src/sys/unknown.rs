@@ -1,32 +1,40 @@
-use std::mem;
+use std::slice;
 use std::usize;
 
+#[derive(Clone)]
 pub struct IoVec {
-    inner: [u8],
+    ptr: *const u8,
+    len: usize,
 }
 
 pub const MAX_LENGTH: usize = usize::MAX;
 
 impl IoVec {
+    pub unsafe fn from_bytes(src: &[u8]) -> Self {
+        IoVec {
+            ptr: src.as_ptr(),
+            len: src.len(),
+        }
+    }
+
+    pub unsafe fn from_bytes_mut(src: &mut [u8]) -> Self {
+        IoVec {
+            ptr: src.as_ptr(),
+            len: src.len(),
+        }
+    }
+
     pub fn as_ref(&self) -> &[u8] {
-        &self.inner
+        unsafe { slice::from_raw_parts(self.ptr, self.len) }
     }
 
     pub fn as_mut(&mut self) -> &mut [u8] {
-        &mut self.inner
+        unsafe { slice::from_raw_parts_mut(self.ptr as *mut u8, self.len) }
     }
 }
 
-impl<'a> From<&'a [u8]> for &'a IoVec {
-    fn from(src: &'a [u8]) -> Self {
-        assert!(src.len() > 0);
-        unsafe { mem::transmute(src) }
-    }
-}
-
-impl<'a> From<&'a mut [u8]> for &'a mut IoVec {
-    fn from(src: &'a mut [u8]) -> Self {
-        assert!(src.len() > 0);
-        unsafe { mem::transmute(src) }
+impl Default for IoVec {
+    fn default() -> Self {
+        unsafe { Self::from_bytes(<&[u8]>::default()) }
     }
 }
