@@ -18,7 +18,7 @@ matrix:
       # Verify WebAssembly support.  As of right now the target is only
       # available on nightly.
       rust: nightly
-      env: [TARGET=wasm32-unknown-unknown]
+      env: [TARGET=wasm32-unknown-unknown, TEST=false]
 
 script:
   - |
@@ -27,7 +27,10 @@ script:
            CARGO_FLAGS="--target=$TARGET"
       fi
   - cargo build $CARGO_FLAGS
-  - cargo test $CARGO_FLAGS
+  - |
+      if [ "$TEST" != false ]
+      then cargo test $CARGO_FLAGS
+      fi
 
 notifications:
   email:
