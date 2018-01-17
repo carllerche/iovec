@@ -2,35 +2,23 @@
 language: rust
 sudo: false
 
-rust:
-  - stable
-
-os:
-  - linux
-  - osx
-
 matrix:
   include:
-    - os: linux
-      # Oldest supported Rust (this should track Mio)
-      rust: 1.9.0
-    - os: linux
-      # Verify WebAssembly support.  As of right now the target is only
-      # available on nightly.
-      rust: nightly
-      env: [TARGET=wasm32-unknown-unknown, TEST=false]
+    # Oldest supported Rust (this should track Mio)
+    - rust: 1.9.0
+    - rust: stable
+    # OS X support
+    - rust: stable
+      os: osx
+    # WebAssembly support.
+    - rust: beta
+      script:
+        - rustup target add wasm32-unknown-unknown
+        - cargo build --target=wasm32-unknown-unknown
 
 script:
-  - |
-      if [ -n "$TARGET" ]
-      then rustup target add "$TARGET"
-           CARGO_FLAGS="--target=$TARGET"
-      fi
-  - cargo build $CARGO_FLAGS
-  - |
-      if [ "$TEST" != false ]
-      then cargo test $CARGO_FLAGS
-      fi
+  - cargo build
+  - cargo test
 
 notifications:
   email:
