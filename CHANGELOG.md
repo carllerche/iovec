@@ -1,3 +1,7 @@
+# 0.2.0 (unknown)
+
+* Use a more reliable internal struct representation (#9)
+
 # 0.1.1 (October 5th, 2017)
 
 * Fix soundness bug: Assert slice lengths are always > 0 (#5)
