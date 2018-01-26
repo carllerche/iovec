@@ -149,7 +149,7 @@ impl<'a> ops::Deref for IoVecMut<'a> {
     }
 }
 
-impl<'a> ops::DerefMut for IoVec<'a> {
+impl<'a> ops::DerefMut for IoVecMut<'a> {
     fn deref_mut(&mut self) -> &mut [u8] {
         self.sys.as_mut()
     }
