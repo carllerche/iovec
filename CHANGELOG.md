@@ -1,4 +1,4 @@
-# 0.1.2 (January 19th, 2018)
+# 0.1.2 (January 26th, 2018)
 
 * Add support for non-windows/unix targets (#10)
 
