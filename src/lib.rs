@@ -174,6 +174,9 @@ impl<'a> Default for IoVecMut<'a> {
 
 #[cfg(test)]
 mod test {
+    extern crate std;
+
+    use self::std::vec::Vec;
     use super::{IoVec, IoVecMut};
 
     #[test]
