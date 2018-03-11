@@ -4,6 +4,8 @@
 //!
 //! [`IoVec`]: struct.IoVec.html
 
+#![no_std]
+
 #[cfg(unix)]
 extern crate libc;
 
@@ -12,8 +14,8 @@ extern crate winapi;
 
 mod sys;
 
-use std::ops;
-use std::marker::PhantomData;
+use core::ops;
+use core::marker::PhantomData;
 
 #[cfg(unix)]
 pub mod unix;
@@ -78,7 +80,7 @@ impl<'a> IoVec<'a> {
 
     /// Convert a slice of mutable iovecs to immutable iovecs
     pub fn from_mut_slice<'b>(slice: &'b [IoVecMut<'a>]) -> &'b [Self] {
-        unsafe { ::std::mem::transmute(slice) }
+        unsafe { ::core::mem::transmute(slice) }
     }
 
     /// Immutable borrow of the iovec.

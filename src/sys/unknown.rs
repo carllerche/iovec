@@ -1,5 +1,5 @@
-use std::slice;
-use std::usize;
+use core::slice;
+use core::usize;
 
 #[derive(Clone)]
 pub struct IoVec {
