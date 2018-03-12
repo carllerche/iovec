@@ -1,6 +1,6 @@
 use winapi::shared::minwindef::DWORD;
 use winapi::shared::ws2def::WSABUF;
-use std::{slice, u32};
+use core::{slice, u32};
 
 #[derive(Clone)]
 pub struct IoVec {
