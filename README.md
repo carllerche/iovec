@@ -13,7 +13,7 @@ To use `iovec`, first add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-iovec = "0.1"
+iovec = "0.2"
 ```
 
 Next, add this to your crate:
