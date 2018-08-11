@@ -6,6 +6,11 @@ matrix:
   include:
     # Oldest supported Rust (this should track Mio)
     - rust: 1.9.0
+      script:
+        - cargo update
+        # The newest libc no longer compiles on 1.9
+        - cargo update -p libc --precise 0.2.3
+        - cargo test
     - rust: stable
     # OS X support
     - rust: stable
