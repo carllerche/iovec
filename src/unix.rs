@@ -21,8 +21,6 @@
 use {IoVec, IoVecMut};
 use libc;
 
-use core::mem;
-
 /// Convert a slice of `IoVec` refs to a slice of `libc::iovec`.
 ///
 /// The return value can be passed to `writev` bindings.
@@ -42,7 +40,7 @@ use core::mem;
 /// // Use the `os_bufs` slice with `writev`.
 /// ```
 pub fn as_os_slice<'a>(iov: &'a [IoVec]) -> &'a [libc::iovec] {
-    unsafe { mem::transmute(iov) }
+    unsafe { ::transmute_slice(iov) }
 }
 
 /// Convert a mutable slice of `IoVec` refs to a mutable slice of `libc::iovec`.
@@ -64,5 +62,5 @@ pub fn as_os_slice<'a>(iov: &'a [IoVec]) -> &'a [libc::iovec] {
 /// // Use the `os_bufs` slice with `readv`.
 /// ```
 pub fn as_os_slice_mut<'a>(iov: &'a mut [IoVecMut]) -> &'a mut [libc::iovec] {
-    unsafe { mem::transmute(iov) }
+    unsafe { ::transmute_mut_slice(iov) }
 }

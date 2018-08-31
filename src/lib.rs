@@ -14,7 +14,7 @@ extern crate winapi;
 
 mod sys;
 
-use core::ops;
+use core::{mem, ops, slice};
 use core::marker::PhantomData;
 
 #[cfg(unix)]
@@ -80,7 +80,7 @@ impl<'a> IoVec<'a> {
 
     /// Convert a slice of mutable iovecs to immutable iovecs
     pub fn from_mut_slice<'b>(slice: &'b [IoVecMut<'a>]) -> &'b [Self] {
-        unsafe { ::core::mem::transmute(slice) }
+        unsafe { transmute_slice(slice) }
     }
 
     /// Immutable borrow of the iovec.
@@ -170,6 +170,24 @@ impl<'a> Default for IoVecMut<'a> {
             _p: PhantomData,
         }
     }
+}
+
+/// Transmutes a &[T] into a &[U]
+unsafe fn transmute_slice<T, U>(src: &[T]) -> &[U] {
+    debug_assert_eq!(mem::size_of::<T>(), mem::size_of::<U>());
+    debug_assert_eq!(mem::align_of::<T>(), mem::align_of::<U>());
+    let ptr = src.as_ptr();
+    debug_assert_eq!(ptr as usize % mem::align_of::<U>(), 0);
+    slice::from_raw_parts(ptr as *const U, src.len())
+}
+
+/// Transmutes a &[T] into a &[U]
+unsafe fn transmute_mut_slice<T, U>(src: &mut [T]) -> &mut [U] {
+    debug_assert_eq!(mem::size_of::<T>(), mem::size_of::<U>());
+    debug_assert_eq!(mem::align_of::<T>(), mem::align_of::<U>());
+    let ptr = src.as_mut_ptr();
+    debug_assert_eq!(ptr as usize % mem::align_of::<U>(), 0);
+    slice::from_raw_parts_mut(ptr as *mut U, src.len())
 }
 
 #[cfg(test)]
