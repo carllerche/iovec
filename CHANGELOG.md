@@ -1,3 +1,7 @@
+# 0.1.3 (xxx)
+
+* Backport winapi 0.3 to 0.1.x branch (#19)
+
 # 0.1.2 (January 26th, 2018)
 
 * Add support for non-windows/unix targets (#10)
