@@ -4,6 +4,8 @@
 //!
 //! [`IoVec`]: struct.IoVec.html
 
+#![no_std]
+
 #[cfg(unix)]
 extern crate libc;
 
@@ -12,7 +14,7 @@ extern crate winapi;
 
 mod sys;
 
-use std::{ops, mem};
+use core::{ops, mem};
 
 #[cfg(unix)]
 pub mod unix;
@@ -147,6 +149,9 @@ impl<'a> Default for &'a mut IoVec {
 
 #[cfg(test)]
 mod test {
+    extern crate std;
+
+    use self::std::vec::Vec;
     use super::IoVec;
 
     #[test]

@@ -21,7 +21,7 @@
 use IoVec;
 use libc;
 
-use std::mem;
+use core::mem;
 
 /// Convert a slice of `IoVec` refs to a slice of `libc::iovec`.
 ///

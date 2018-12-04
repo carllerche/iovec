@@ -1,5 +1,5 @@
 use libc;
-use std::{mem, slice, usize};
+use core::{mem, slice, usize};
 
 pub struct IoVec {
     inner: [u8],

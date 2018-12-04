@@ -1,3 +1,7 @@
+# 0.1.3 (December 4th, 2018)
+
+* Add support for no_std (#21)
+
 # 0.1.2 (January 26th, 2018)
 
 * Add support for non-windows/unix targets (#10)
