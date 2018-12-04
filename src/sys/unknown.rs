@@ -1,4 +1,4 @@
-use std::{mem, slice, usize};
+use core::{mem, slice, usize};
 
 #[derive(Clone)]
 pub struct WasmIoVec {

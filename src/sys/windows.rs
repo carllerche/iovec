@@ -1,5 +1,5 @@
 use winapi::{WSABUF, DWORD};
-use std::{mem, slice, u32};
+use core::{mem, slice, u32};
 
 pub struct IoVec {
     inner: [u8],
