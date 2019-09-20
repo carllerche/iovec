@@ -5,7 +5,7 @@ sudo: false
 matrix:
   include:
     # Oldest supported Rust (this should track Mio)
-    - rust: 1.9.0
+    - rust: 1.18.0
     - rust: stable
     # OS X support
     - rust: stable
