@@ -7,6 +7,7 @@ type DWORD = u32;
 type ULONG = u32;
 type CHAR = i8;
 
+#[repr(C)]
 struct WSABUF {
     pub len: ULONG,
     pub buf: *mut CHAR,
